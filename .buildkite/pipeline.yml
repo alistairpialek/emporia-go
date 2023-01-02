@@ -1,0 +1,6 @@
+steps:
+  - label: ":golang: Test emporia package"
+    commands: true
+    plugins:
+      - seek-oss/docker-ecr-cache#v2.0.0:
+          max-age-days: 7
