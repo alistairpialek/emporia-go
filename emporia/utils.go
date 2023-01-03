@@ -3,7 +3,6 @@ package emporia
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"time"
 )
@@ -11,7 +10,7 @@ import (
 // ReadStringFromFile reads a value from filename.
 func (e *Emporia) ReadStringFromFile(filename string) (string, error) {
 	if e.FileExists(filename) {
-		valueString, fileErr := ioutil.ReadFile(fmt.Sprintf("%s/%s", e.RootTempDir, filename))
+		valueString, fileErr := os.ReadFile(fmt.Sprintf("%s/%s", e.RootTempDir, filename))
 		if fileErr != nil {
 			return "", fileErr
 		}

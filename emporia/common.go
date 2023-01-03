@@ -2,7 +2,7 @@ package emporia
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 
@@ -15,7 +15,6 @@ const (
 	apiRoot              = "https://api.emporiaenergy.com"
 	apiCustomerDevices   = "customers/devices"
 	flowUsernamePassword = "USER_PASSWORD_AUTH"
-	deviceGID            = 59279
 )
 
 // Emporia models components needed.
@@ -26,13 +25,14 @@ type Emporia struct {
 	Username       string
 	Password       string
 	ClientID       string
-	Circuits       *[]Circuit `yaml:"circuits"`
+	UserPoolID     string
+	DeviceGID      int
+	Circuits       []Circuit `yaml:"circuits"`
 }
 
 // Circuit specific configuration.
 type Circuit struct {
 	Name    string `yaml:"name"`
-	Slug    string `yaml:"slug"`
 	Channel int    `yaml:"channel"`
 }
 
@@ -62,7 +62,7 @@ func (e *Emporia) getRequest(token *string, endpoint string) (resp *string, err 
 		return nil, err
 	}
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (e *Emporia) getRequest(token *string, endpoint string) (resp *string, err 
 	return &sb, nil
 }
 
-func (e *Emporia) getLogin() (token *string, err error) {
+func (e *Emporia) GetLogin() (token *string, err error) {
 	authFilename := "emporia_auth"
 
 	reAuth, err := e.reAuthenticate(authFilename)

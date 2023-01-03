@@ -31,15 +31,15 @@ func (e *Emporia) energyEndpoint(en EnergyInput) string {
 	return fmt.Sprintf("AppAPI?apiMethod=getChartUsage&deviceGid=%d&channel=%d&start=%s&end=%s&scale=%s&energyUnit=%s", en.DeviceGID, en.Channel, en.Start, en.End, en.Scale, en.Unit)
 }
 
-func (e *Emporia) getDayEnergy(token *string) (ce []CircuitEnergy, err error) {
+func (e *Emporia) GetDayEnergy(token *string) (ce []CircuitEnergy, err error) {
 	if e.Circuits == nil {
 		log.Print("No circuits configured to collect energy for.")
 		return nil, nil
 	}
 
-	for _, c := range *e.Circuits {
+	for _, c := range e.Circuits {
 		input := EnergyInput{
-			DeviceGID: deviceGID,
+			DeviceGID: e.DeviceGID,
 			Channel:   c.Channel,
 			Start:     time.Now().UTC().Format(time.RFC3339),
 			End:       time.Now().UTC().Format(time.RFC3339),

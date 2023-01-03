@@ -37,14 +37,14 @@ func (e *Emporia) powerEndpoint(p PowerInput) string {
 	return fmt.Sprintf("AppAPI?apiMethod=getDeviceListUsages&deviceGids=%d&instant=%s&scale=%s&energyUnit=%s", p.DeviceGID, p.Instant, p.Scale, p.Unit)
 }
 
-func (e *Emporia) getPower(token *string) (cp []CircuitPower, err error) {
+func (e *Emporia) GetPower(token *string) (cp []CircuitPower, err error) {
 	if e.Circuits == nil {
 		log.Print("No circuits configured to collect power for.")
 		return
 	}
 
 	input := PowerInput{
-		DeviceGID: deviceGID,
+		DeviceGID: e.DeviceGID,
 		// From 5s ago. Without this, occasionally the API will return back no data.
 		// I can only assume this is due to the data not being saved yet, so we give the
 		// Emporia API some breathing room.
@@ -70,7 +70,7 @@ func (e *Emporia) getPower(token *string) (cp []CircuitPower, err error) {
 	}
 
 	for _, v := range usage.DeviceListUsage.Devices[0].ChannelUsages {
-		for _, c := range *e.Circuits {
+		for _, c := range e.Circuits {
 			if v.Name == c.Name {
 				circuit := CircuitPower{
 					Name:  v.Name,
