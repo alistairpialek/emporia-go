@@ -20,15 +20,14 @@ const (
 
 // Emporia models components needed.
 type Emporia struct {
-	RootTempDir    string
-	Timezone       string
-	UserPoolRegion string
-	Username       string
-	Password       string
-	ClientID       string
-	UserPoolID     string
-	DeviceGID      int
-	Circuits       []Circuit `yaml:"circuits"`
+	RootTempDir string
+	Timezone    string
+	Username    string
+	Password    string
+	ClientID    string
+	UserPoolID  string
+	DeviceGID   int
+	Circuits    []Circuit `yaml:"circuits"`
 }
 
 // Circuit specific configuration.
