@@ -15,6 +15,7 @@ const (
 	apiRoot              = "https://api.emporiaenergy.com"
 	apiCustomerDevices   = "customers/devices"
 	flowUsernamePassword = "USER_PASSWORD_AUTH"
+	userPoolRegion       = "us-east-2"
 )
 
 // Emporia models components needed.
@@ -95,7 +96,7 @@ func (e *Emporia) GetLogin() (token *string, err error) {
 
 	log.Printf("Looks like we need to reauth with Emporia")
 
-	conf := &aws.Config{Region: aws.String(e.UserPoolRegion)}
+	conf := &aws.Config{Region: aws.String(userPoolRegion)}
 	sess, err := session.NewSession(conf)
 	if err != nil {
 		return nil, err
