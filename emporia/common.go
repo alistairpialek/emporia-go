@@ -36,13 +36,16 @@ type Circuit struct {
 	Channel int    `yaml:"channel"`
 }
 
-func (e *Emporia) getCustomerDevices(token *string) (err error) {
-	_, err = e.getRequest(token, apiCustomerDevices)
+// TODO: Parse the response out.
+func (e *Emporia) GetCustomerDevices(token *string) (err error) {
+	resp, err := e.getRequest(token, apiCustomerDevices)
 	if err != nil {
 		return err
 	}
 
-	return
+	log.Printf("resp: %s", *resp)
+
+	return nil
 }
 
 func (e *Emporia) getRequest(token *string, endpoint string) (resp *string, err error) {

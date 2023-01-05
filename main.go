@@ -49,4 +49,9 @@ func main() {
 		log.Printf("Name: %s", circuit.Name)
 		log.Printf("Power: %f", circuit.Power)
 	}
+
+	err = a.GetCustomerDevices(token)
+	if err != nil {
+		log.Printf("get customer devices: %s", err)
+	}
 }
