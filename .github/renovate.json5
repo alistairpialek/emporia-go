@@ -1,0 +1,30 @@
+{
+  rangeStrategy: 'pin',
+  // Don't swamp CI systems. Each time a branch is merged, the remaining branches all need to be rebased.
+  // If no limit is set, a huge number of builds could be required to build and merge everything.
+  // We also don't want our CI system completely bogged down by update builds.
+  prConcurrentLimit: 10,
+  packageRules: [
+    {
+      matchUpdateTypes: ['major'],
+      labels: ['release:major'],
+      automerge: false,
+    },
+    {
+      matchUpdateTypes: ['minor'],
+      labels: ['release:minor'],
+      automerge: true,
+    },
+    {
+      matchUpdateTypes: ['patch'],
+      labels: ['release:patch'],
+      automerge: true,
+    },
+    {
+      // Don't automatically merge pin types as these are sometimes deliberate and semvar
+      // ranges are actually intended.
+      matchUpdateTypes: ['digest', 'lockFileMaintenance'],
+      automerge: true,
+    },
+  ],
+}
